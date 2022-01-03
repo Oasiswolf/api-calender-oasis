@@ -166,7 +166,12 @@ def update_reminder(month_id, date):
 
     return jsonify(reminder_schema.dump(reminder))
 
-
+@app.route("/reminder/delete/<id>", methods=["DELETE"])
+def delete_reminder_by_id(id):
+    reminder_to_delete = db.session.query(Reminder).filter(Reminder.id == id).first()
+    db.session.delete(reminder_to_delete)
+    db.session.commit()
+    return jsonify(reminder_schema.dump(reminder_to_delete))
 
 
 
